@@ -10,4 +10,16 @@ export class BoardsController {
   getAllDeskPosts() {
     return this.boardsService.getAllDeskPosts();
   }
+
+  /* 꿀템 추천 게시글 모두 불러오기 */
+  @Get('/recommenditems')
+  getAllHoneyItemPosts() {
+    return this.boardsService.getAllHoneyItemPosts();
+  }
+
+  /* 질문 게시글 모두 불러오기 */
+  @Get('/questions')
+  getAllQuestionPosts() {
+    return this.boardsService.getAllQuestionPosts();
+  }
 }
