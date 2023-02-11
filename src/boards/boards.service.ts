@@ -56,18 +56,84 @@ export class BoardsService {
     },
   ];
 
-  /* 데스크테리어 게시판 모든 글 가져오기 */
+  /* ****************** 데스크테리어 게시판 ****************** */
+  /** 데스크테리어 게시판 모든 글 가져오기 */
   getAllDeskPosts() {
     return this.deskteriorPosts;
   }
 
-  /* 꿀템 추천 게시판 모든 글 가져오기 */
+  /** 데스크테리어 게시판 글 생성 */
+  createDeskPost() {
+    return '데스크테리어 게시판 글 생성';
+  }
+
+  /** 데스크테리어 게시판 글 상세보기 */
+  getDeskPostById() {
+    return '데스크테리어 게시판 글 상세보기';
+  }
+
+  /** 데스크테리어 게시판 글 수정 */
+  patchDeskPostById() {
+    return '데스크테리어 게시판 글 수정';
+  }
+
+  /** 데스크테리어 게시판 글 삭제 */
+  deleteDeskPostById() {
+    return '데스크테리어 게시판 글 삭제';
+  }
+  /* ****************** 데스크테리어 게시판 ****************** */
+
+  /* ****************** 꿀템 추천 게시판 ****************** */
+  /** 꿀템 추천 게시판 모든 글 가져오기 */
   getAllHoneyItemPosts() {
     return this.honeyItemPosts;
   }
 
-  /* 질문 게시판 모든 글 가져오기 */
+  /** 꿀템 추천 게시판 글 생성 */
+  createHoneyItemPost() {
+    return '꿀템 추천 게시판 글 생성';
+  }
+
+  /** 꿀템 추천 게시판 글 상세보기 */
+  getHoneyItemPostById() {
+    return '꿀템 추천 게시판 글 상세보기';
+  }
+
+  /** 꿀템 추천 게시판 글 수정 */
+  patchHoneyItemPostById() {
+    return '꿀템 추천 게시판 글 수정';
+  }
+
+  /** 꿀템 추천 게시판 글 삭제 */
+  deleteHoneyItemPostById() {
+    return '꿀템 추천 게시판 글 삭제';
+  }
+  /* ****************** 꿀템 추천 게시판 ****************** */
+
+  /* ****************** 질문 게시판 ****************** */
+  /** 질문 게시판 모든 글 가져오기 */
   getAllQuestionPosts() {
     return this.questionPosts;
   }
+
+  /** 질문 게시판 글 생성 */
+  createQuestionPost() {
+    return '질문 게시판 글 생성';
+  }
+
+  /** 질문 게시판 글 상세보기 */
+  getQuestionPostById() {
+    return '질문 게시판 글 상세보기';
+  }
+
+  /** 질문 게시판 글 수정 */
+  patchQuestionPostById() {
+    return '질문 게시판 글 수정';
+  }
+
+  /** 질문 게시판 글 삭제 */
+  deleteQuestionPostById() {
+    return '질문 게시판 글 삭제';
+  }
+  /* ****************** 질문 게시판 ****************** */
 }
