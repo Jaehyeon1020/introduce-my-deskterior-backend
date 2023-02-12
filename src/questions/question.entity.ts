@@ -18,7 +18,4 @@ export class Question {
 
   @Column('longtext')
   description: string; // 게시글 내용
-
-  @Column()
-  image: string; // 게시글 삽입 이미지
 }
