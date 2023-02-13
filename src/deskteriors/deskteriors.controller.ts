@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
+  ParseIntPipe,
   Post,
   UsePipes,
   ValidationPipe,
@@ -25,5 +28,11 @@ export class DeskteriorsController {
   @UsePipes(ValidationPipe)
   createBoard(@Body() deskteriorDto: DeskteriorDto): Promise<Deskterior> {
     return this.deskteriorService.createBoard(deskteriorDto);
+  }
+
+  /** 데스크테리어 글 삭제 */
+  @Delete('/:postId')
+  deleteBoardById(@Param('id', ParseIntPipe) id: number) {
+    return this.deskteriorService.deleteBoardById(id);
   }
 }

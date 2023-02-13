@@ -28,4 +28,9 @@ export class DeskteriorsService {
     await this.deskteriorRepository.save(new_board);
     return new_board;
   }
+
+  /** 데스크테리어 글 삭제 */
+  async deleteBoardById(id: number): Promise<void> {
+    await this.deskteriorRepository.delete({ id });
+  }
 }
