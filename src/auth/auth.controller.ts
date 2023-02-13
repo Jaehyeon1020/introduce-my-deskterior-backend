@@ -1,6 +1,15 @@
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthService } from './auth.service';
-import { Body, Controller, Get, Post, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  ValidationPipe,
+} from '@nestjs/common';
+import { Request, Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -20,7 +29,7 @@ export class AuthController {
 
   /** 로그인 */
   @Post('/signin')
-  signin(@Body() userDto: CreateUserDto) {
-    return this.authService.login(userDto);
+  signin(@Res() res: Response, @Body() userDto: CreateUserDto) {
+    return this.authService.login(res, userDto);
   }
 }

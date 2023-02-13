@@ -10,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -51,7 +52,7 @@ export class AuthService {
   }
 
   /** 로그인 */
-  async login(userData: CreateUserDto) {
+  async login(res: Response, userData: CreateUserDto) {
     const { username, password } = userData;
     const checkingUser = this.userRepository.findOneBy({ username });
 
@@ -62,7 +63,8 @@ export class AuthService {
       const payload = { username }; // username을 담는 payload 생성
       const accessToken = this.jwtService.sign(payload); // payload를 담는 jwt token 발행
 
-      return { accessToken };
+      res.cookie('jwt', accessToken);
+      return res.send({ message: '로그인 성공' });
     } else {
       throw new UnauthorizedException('아이디 또는 비밀번호가 틀렸습니다.');
     }
