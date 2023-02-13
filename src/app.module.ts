@@ -7,6 +7,7 @@ import { DeskteriorsModule } from './deskteriors/deskteriors.module';
 import { Deskterior } from './deskteriors/deskterior.entity';
 import { HoneyItem } from './honeyitems/honeyitem.entity';
 import { Question } from './questions/question.entity';
+import { User } from './auth/user.entity';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { Question } from './questions/question.entity';
       username: 'root',
       password: 'qwer1234',
       database: 'intro_my_desk',
-      entities: [Deskterior, HoneyItem, Question],
+      entities: [Deskterior, HoneyItem, Question, User],
       synchronize: true,
     }),
   ],

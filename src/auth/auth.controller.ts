@@ -1,18 +1,26 @@
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthService } from './auth.service';
-import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, ValidationPipe } from '@nestjs/common';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  /** (테스트용) 모든 유저 보기 */
+  @Get('/')
+  getAllUsers() {
+    return this.authService.getAllUsers();
+  }
+
   /** 회원가입 */
   @Post('/signup')
-  signup(@Body(ValidationPipe) userDto: CreateUserDto) {
+  signup(@Body() userDto: CreateUserDto) {
     return this.authService.createUser(userDto);
   }
 
   /** 로그인 */
   @Post('/signin')
-  signin(@Body(ValidationPipe) userDto: CreateUserDto) {}
+  signin(@Body() userDto: CreateUserDto) {
+    return this.authService.login(userDto);
+  }
 }
