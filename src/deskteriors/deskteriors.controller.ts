@@ -23,6 +23,15 @@ export class DeskteriorsController {
     return this.deskteriorService.findAll();
   }
 
+  /** 데스크테리어 글 상세보기 */
+  @Get('/:postId')
+  findOneById(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('description') newDescription: string,
+  ): Promise<Deskterior> {
+    return this.deskteriorService.findOneById(id);
+  }
+
   /** 데스크테리어 글 작성 */
   @Post('/')
   @UsePipes(ValidationPipe)
@@ -32,7 +41,15 @@ export class DeskteriorsController {
 
   /** 데스크테리어 글 삭제 */
   @Delete('/:postId')
-  deleteBoardById(@Param('id', ParseIntPipe) id: number) {
+  deleteBoardById(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.deskteriorService.deleteBoardById(id);
+  }
+
+  /** 데스크테리어 글 수정 */
+  updateBoardById(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('description') newDescription: string,
+  ): Promise<Deskterior> {
+    return this.deskteriorService.updateBoardById(id, newDescription);
   }
 }
