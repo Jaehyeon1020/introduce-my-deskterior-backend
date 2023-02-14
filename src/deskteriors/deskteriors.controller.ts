@@ -6,9 +6,11 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { Deskterior } from './deskterior.entity';
 import { DeskteriorsService } from './deskteriors.service';
 import { DeskteriorDto } from './dto/deskterior.dto';
@@ -18,6 +20,7 @@ export class DeskteriorsController {
   constructor(private deskteriorService: DeskteriorsService) {}
 
   /** 데스크테리어 글 전체 불러오기 */
+  @UseGuards(AuthGuard('jwt'))
   @Get('/')
   findAll(): Promise<Deskterior[]> {
     return this.deskteriorService.findAll();
