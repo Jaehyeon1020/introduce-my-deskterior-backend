@@ -69,4 +69,13 @@ export class AuthService {
       throw new UnauthorizedException('아이디 또는 비밀번호가 틀렸습니다.');
     }
   }
+
+  /** (테스트용) 로그아웃 */
+  async logout(res: Response) {
+    res.cookie('jwt', null, {
+      maxAge: 0,
+    });
+
+    res.send({ message: '로그아웃 성공' });
+  }
 }

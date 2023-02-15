@@ -32,4 +32,10 @@ export class AuthController {
   signin(@Res() res: Response, @Body() userDto: CreateUserDto) {
     return this.authService.login(res, userDto);
   }
+
+  /** (테스트용) 로그아웃 */
+  @Post('/logout')
+  logout(@Res() res: Response) {
+    return this.authService.logout(res);
+  }
 }
