@@ -31,7 +31,7 @@ export class AuthService {
 
     // 아이디 중복되는 경우
     if (await this.userRepository.findOneBy({ username })) {
-      throw new ConflictException('이미 존재하는 유저입니다.');
+      return { message: '이미 존재하는 아이디입니다.' };
     }
 
     const salt = await bcrypt.genSalt();
@@ -44,21 +44,22 @@ export class AuthService {
 
     try {
       this.userRepository.save(newUser);
+      return { message: `${newUser.username}님 회원가입을 축하드립니다!` };
     } catch (err) {
-      throw new InternalServerErrorException(
-        '알 수 없는 에러가 발생하였습니다.',
-      );
+      return {
+        message: '알 수 없는 에러가 발생하였습니다. 다시 시도해주세요.',
+      };
     }
   }
 
   /** 로그인 */
   async login(res: Response, userData: CreateUserDto) {
     const { username, password } = userData;
-    const checkingUser = this.userRepository.findOneBy({ username });
+    const checkingUser = await this.userRepository.findOneBy({ username });
 
     if (
       checkingUser &&
-      bcrypt.compare(password, (await checkingUser).password)
+      (await bcrypt.compare(password, (await checkingUser).password))
     ) {
       const payload = { username }; // username을 담는 payload 생성
       const accessToken = this.jwtService.sign(payload); // payload를 담는 jwt token 발행
@@ -66,11 +67,11 @@ export class AuthService {
       res.cookie('jwt', accessToken);
       return res.send({ message: '로그인 성공' });
     } else {
-      throw new UnauthorizedException('아이디 또는 비밀번호가 틀렸습니다.');
+      return res.send({ message: '아이디 또는 비밀번호가 틀렸습니다.' });
     }
   }
 
-  /** (테스트용) 로그아웃 */
+  /** 로그아웃 */
   async logout(res: Response) {
     res.cookie('jwt', null, {
       maxAge: 0,
