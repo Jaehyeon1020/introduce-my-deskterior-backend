@@ -1,15 +1,7 @@
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthService } from './auth.service';
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Req,
-  Res,
-  ValidationPipe,
-} from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -33,7 +25,7 @@ export class AuthController {
     return this.authService.login(res, userDto);
   }
 
-  /** (테스트용) 로그아웃 */
+  /** 로그아웃 */
   @Post('/logout')
   logout(@Res() res: Response) {
     return this.authService.logout(res);

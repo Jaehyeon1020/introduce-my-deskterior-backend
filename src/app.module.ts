@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HoneyitemsModule } from './honeyitems/honeyitems.module';
@@ -8,6 +8,7 @@ import { Deskterior } from './deskteriors/deskterior.entity';
 import { HoneyItem } from './honeyitems/honeyitem.entity';
 import { Question } from './questions/question.entity';
 import { User } from './auth/user.entity';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -27,6 +28,11 @@ import { User } from './auth/user.entity';
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
+    },
+  ],
 })
 export class AppModule {}
