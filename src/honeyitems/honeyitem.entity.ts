@@ -21,6 +21,9 @@ export class HoneyItem {
   @Column('longtext')
   description: string; // 게시글 내용
 
+  @Column()
+  authorId: number; // 작성자(user의 id)
+
   @ManyToOne(() => User, (user) => user.honeyItemBoards)
-  user: User;
+  user: User; // 작성자 객체
 }
