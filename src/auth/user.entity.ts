@@ -21,12 +21,18 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => Deskterior, (deskterior) => deskterior.user)
+  @OneToMany((type) => Deskterior, (deskterior) => deskterior.user, {
+    eager: true,
+  })
   deskteriorBoards: Deskterior[];
 
-  @OneToMany(() => HoneyItem, (honeyItem) => honeyItem.user)
+  @OneToMany((type) => HoneyItem, (honeyItem) => honeyItem.user, {
+    eager: true,
+  })
   honeyItemBoards: HoneyItem[];
 
-  @OneToMany(() => Question, (question) => question.user)
+  @OneToMany((type) => Question, (question) => question.user, {
+    eager: true,
+  })
   questionBoards: Question[];
 }
