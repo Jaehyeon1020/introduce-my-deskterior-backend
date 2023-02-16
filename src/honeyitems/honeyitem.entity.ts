@@ -1,7 +1,9 @@
+import { User } from 'src/auth/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -18,4 +20,7 @@ export class HoneyItem {
 
   @Column('longtext')
   description: string; // 게시글 내용
+
+  @ManyToOne(() => User, (user) => user.honeyItemBoards)
+  user: User;
 }
