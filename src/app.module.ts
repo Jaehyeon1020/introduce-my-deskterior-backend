@@ -9,6 +9,7 @@ import { HoneyItem } from './honeyitems/honeyitem.entity';
 import { Question } from './questions/question.entity';
 import { User } from './auth/user.entity';
 import { APP_PIPE } from '@nestjs/core';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { APP_PIPE } from '@nestjs/core';
       entities: [Deskterior, HoneyItem, Question, User],
       synchronize: true,
     }),
+    UsersModule,
   ],
   controllers: [],
   providers: [
