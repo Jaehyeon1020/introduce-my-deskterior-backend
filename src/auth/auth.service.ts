@@ -1,5 +1,5 @@
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './user.entity';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { User } from '../users/user.entity';
 import {
   ConflictException,
   Injectable,
@@ -19,11 +19,6 @@ export class AuthService {
     private userRepository: Repository<User>,
     private jwtService: JwtService,
   ) {}
-
-  /** (테스트용) 모든 유저 보기 */
-  async getAllUsers() {
-    return this.userRepository.find();
-  }
 
   /** 새로운 user 생성 */
   async createUser(userData: CreateUserDto) {

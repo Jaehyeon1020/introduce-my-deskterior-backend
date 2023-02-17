@@ -1,4 +1,4 @@
-import { Deskterior } from './../deskteriors/deskterior.entity';
+import { Deskterior } from '../deskteriors/deskterior.entity';
 import {
   Column,
   Entity,

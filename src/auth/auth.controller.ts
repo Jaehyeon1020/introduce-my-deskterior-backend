@@ -1,4 +1,4 @@
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
@@ -6,12 +6,6 @@ import { Response } from 'express';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
-
-  /** (테스트용) 모든 유저 보기 */
-  @Get('/')
-  getAllUsers() {
-    return this.authService.getAllUsers();
-  }
 
   /** 회원가입 */
   @Post('/signup')

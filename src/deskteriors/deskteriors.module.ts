@@ -6,7 +6,7 @@ import { DeskteriorsController } from './deskteriors.controller';
 import { DeskteriorsService } from './deskteriors.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Deskterior]), AuthModule],
+  imports: [TypeOrmModule.forFeature([Deskterior])],
   controllers: [DeskteriorsController],
   providers: [DeskteriorsService],
 })

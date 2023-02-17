@@ -7,7 +7,7 @@ import { DeskteriorsModule } from './deskteriors/deskteriors.module';
 import { Deskterior } from './deskteriors/deskterior.entity';
 import { HoneyItem } from './honeyitems/honeyitem.entity';
 import { Question } from './questions/question.entity';
-import { User } from './auth/user.entity';
+import { User } from './users/user.entity';
 import { APP_PIPE } from '@nestjs/core';
 import { UsersModule } from './users/users.module';
 
