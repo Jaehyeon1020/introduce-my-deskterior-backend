@@ -18,6 +18,7 @@ export class UsersController {
 
   /** (테스트용) 모든 유저 정보 조회 */
   @Get('/')
+  @UseGuards(AuthGuard('jwt'))
   getAllUsers() {
     return this.userService.getAllUsers();
   }
