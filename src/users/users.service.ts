@@ -25,6 +25,17 @@ export class UsersService {
     return await this.userRepository.find();
   }
 
+  /** (테스트용) 회원 정보 조회 */
+  async getUserByUsername(username: string) {
+    const found = await this.userRepository.findOneBy({ username });
+
+    if (!found) {
+      return { message: '회원 정보를 찾을 수 없습니다.' };
+    }
+
+    return found;
+  }
+
   /** 특정 유저가 작성한 모든 글 조회 */
   async getAllBoardsByUser(username: string) {
     const found = await this.userRepository.findOneBy({ username });
@@ -39,17 +50,6 @@ export class UsersService {
       questionBoards: found.questionBoards,
     };
   }
-
-  // /** 회원 정보 조회 */
-  // async getUserByUsername(username: string) {
-  //   const found = await this.userRepository.findOneBy({ username });
-
-  //   if (!found) {
-  //     return { message: '회원 정보를 찾을 수 없습니다.' };
-  //   }
-
-  //   return found;
-  // }
 
   /** 회원 정보 수정(비밀번호 수정) */
   async updateUserPassword(user: User, username: string, newPassword: string) {
