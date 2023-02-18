@@ -10,6 +10,7 @@ import { Question } from './questions/question.entity';
 import { User } from './users/user.entity';
 import { APP_PIPE } from '@nestjs/core';
 import { UsersModule } from './users/users.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -17,13 +18,16 @@ import { UsersModule } from './users/users.module';
     DeskteriorsModule,
     HoneyitemsModule,
     QuestionsModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'qwer1234',
-      database: 'intro_my_desk',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
       entities: [Deskterior, HoneyItem, Question, User],
       synchronize: true,
     }),

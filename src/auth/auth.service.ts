@@ -57,7 +57,9 @@ export class AuthService {
       (await bcrypt.compare(password, (await checkingUser).password))
     ) {
       const payload = { username }; // username을 담는 payload 생성
-      const accessToken = this.jwtService.sign(payload); // payload를 담는 jwt token 발행
+      const accessToken = this.jwtService.sign(payload, {
+        secret: process.env.JWT_SECRET,
+      }); // payload를 담는 jwt token 발행
 
       res.cookie('jwt', accessToken);
       return res.send({ message: '로그인 성공' });
