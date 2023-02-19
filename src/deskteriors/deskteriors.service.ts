@@ -1,9 +1,14 @@
 import { DeskteriorDto } from './dto/deskterior.dto';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Deskterior } from './deskterior.entity';
 import { User } from 'src/users/user.entity';
+import * as fs from 'fs';
 
 @Injectable()
 export class DeskteriorsService {
@@ -31,13 +36,24 @@ export class DeskteriorsService {
   /** 데스크테리어 글 작성 */
   async createBoard(
     deskteriorDto: DeskteriorDto,
+    file: Array<Express.Multer.File>,
     user: User,
   ): Promise<Deskterior> {
     const { title, description } = deskteriorDto;
+    let filename = '';
+
+    if (file.length > 0) {
+      const uploadFile = file[0];
+      const extender = this.extractExtender(uploadFile.mimetype);
+      this.modifyFileNameIncludeExtender(uploadFile.filename, extender);
+
+      filename = uploadFile.filename + '.' + extender;
+    }
 
     const new_board = this.deskteriorRepository.create({
       title,
       description,
+      image: filename,
       user,
       authorId: user.id,
     });
@@ -76,5 +92,23 @@ export class DeskteriorsService {
     } else {
       return { message: '권한이 없습니다.' };
     }
+  }
+
+  /** 이미지 업로드 */
+  uploadImages(files: Array<Express.Multer.File>) {
+    return files;
+  }
+
+  /** file metadata의 mimetype에서 확장자 추출 */
+  extractExtender(mimetype: string): string {
+    return mimetype.split('/')[1];
+  }
+
+  /** 파일 이름 확장자 포함으로 변경 */
+  modifyFileNameIncludeExtender(orginalFileName: string, ext: string) {
+    console.log(__dirname);
+    const path = 'upload/' + orginalFileName;
+
+    fs.renameSync(path, path + '.' + ext);
   }
 }

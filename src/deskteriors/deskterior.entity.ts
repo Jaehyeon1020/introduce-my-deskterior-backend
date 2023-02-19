@@ -24,6 +24,9 @@ export class Deskterior {
   @Column()
   authorId: number; // 작성자(user의 id)
 
+  @Column()
+  image: string; // 이미지 메타데이터
+
   @ManyToOne(() => User, (user) => user.deskteriorBoards)
   user: User; // 작성자 객체
 }

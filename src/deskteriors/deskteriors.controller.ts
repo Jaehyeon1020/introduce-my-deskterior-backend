@@ -8,11 +8,19 @@ import {
   Patch,
   Post,
   Req,
+  UploadedFile,
+  UploadedFiles,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import {
+  FileFieldsInterceptor,
+  FileInterceptor,
+  FilesInterceptor,
+} from '@nestjs/platform-express';
 import { GetUser } from 'src/custom-decorators/get-user.decorator';
 import { User } from 'src/users/user.entity';
 import { Deskterior } from './deskterior.entity';
@@ -36,14 +44,16 @@ export class DeskteriorsController {
   }
 
   /** 데스크테리어 글 작성(로그인 필요) */
+  @UseInterceptors(FilesInterceptor('image'))
   @UseGuards(AuthGuard('jwt'))
   @Post('/')
   @UsePipes(ValidationPipe)
   createBoard(
     @Body() deskteriorDto: DeskteriorDto,
+    @UploadedFiles() file: Array<Express.Multer.File>,
     @GetUser() user: User,
   ): Promise<Deskterior> {
-    return this.deskteriorService.createBoard(deskteriorDto, user);
+    return this.deskteriorService.createBoard(deskteriorDto, file, user);
   }
 
   /** 데스크테리어 글 삭제(로그인 필요 -> 작성자와 접속 유저가 일치해야 함) */
@@ -65,5 +75,12 @@ export class DeskteriorsController {
     @GetUser() user: User,
   ): Promise<Deskterior | { message: string }> {
     return this.deskteriorService.updateBoardById(id, newDescription, user);
+  }
+
+  /** 이미지 업로드 */
+  @Post('/upload')
+  @UseInterceptors(FilesInterceptor('files'))
+  uploadImages(@UploadedFiles() files: Array<Express.Multer.File>) {
+    return this.deskteriorService.uploadImages(files);
   }
 }
