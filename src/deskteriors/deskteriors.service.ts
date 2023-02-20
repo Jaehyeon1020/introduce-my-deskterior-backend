@@ -90,9 +90,4 @@ export class DeskteriorsService {
       return { message: '권한이 없습니다.' };
     }
   }
-
-  /** 이미지 업로드 */
-  uploadImages(files: Array<Express.Multer.File>) {
-    return files;
-  }
 }

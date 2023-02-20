@@ -70,11 +70,4 @@ export class DeskteriorsController {
   ): Promise<Deskterior | { message: string }> {
     return this.deskteriorService.updateBoardById(id, newDescription, user);
   }
-
-  /** 이미지 업로드 */
-  @Post('/upload')
-  @UseInterceptors(FilesInterceptor('files'))
-  uploadImages(@UploadedFiles() files: Array<Express.Multer.File>) {
-    return this.deskteriorService.uploadImages(files);
-  }
 }
