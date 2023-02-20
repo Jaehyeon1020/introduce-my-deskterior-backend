@@ -4,7 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Deskterior } from './deskterior.entity';
 import { User } from 'src/users/user.entity';
-import * as fs from 'fs';
+import { extractExtender } from 'src/lib/extractExtender';
+import { modifyFileNameIncludeExtender } from 'src/lib/modifyFileNameIncludeExtender';
 
 @Injectable()
 export class DeskteriorsService {
@@ -40,8 +41,8 @@ export class DeskteriorsService {
 
     if (file.length > 0) {
       const uploadFile = file[0];
-      const extender = this.extractExtender(uploadFile.mimetype);
-      this.modifyFileNameIncludeExtender(uploadFile.filename, extender);
+      const extender = extractExtender(uploadFile.mimetype);
+      modifyFileNameIncludeExtender(uploadFile.filename, extender);
 
       filename = uploadFile.filename + '.' + extender;
     }
@@ -93,18 +94,5 @@ export class DeskteriorsService {
   /** 이미지 업로드 */
   uploadImages(files: Array<Express.Multer.File>) {
     return files;
-  }
-
-  /** file metadata의 mimetype에서 확장자 추출 */
-  extractExtender(mimetype: string): string {
-    return mimetype.split('/')[1];
-  }
-
-  /** 파일 이름 확장자 포함으로 변경 */
-  modifyFileNameIncludeExtender(orginalFileName: string, ext: string) {
-    console.log(__dirname);
-    const path = 'upload/' + orginalFileName;
-
-    fs.renameSync(path, path + '.' + ext);
   }
 }
