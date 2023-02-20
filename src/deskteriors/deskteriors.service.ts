@@ -14,8 +14,8 @@ export class DeskteriorsService {
   ) {}
 
   /** 데스크테리어 글 전체 불러오기 */
-  findAll(): Promise<Deskterior[]> {
-    return this.deskteriorRepository.find();
+  async findAll(): Promise<Deskterior[]> {
+    return await this.deskteriorRepository.find();
   }
 
   /** 데스크테리어 글 상세보기 */
