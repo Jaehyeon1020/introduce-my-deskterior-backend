@@ -7,8 +7,6 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Req,
-  UploadedFile,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -16,11 +14,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import {
-  FileFieldsInterceptor,
-  FileInterceptor,
-  FilesInterceptor,
-} from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { GetUser } from 'src/custom-decorators/get-user.decorator';
 import { User } from 'src/users/user.entity';
 import { Deskterior } from './deskterior.entity';

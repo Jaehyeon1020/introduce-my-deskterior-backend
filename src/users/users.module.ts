@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from 'src/auth/auth.module';
 import { Deskterior } from 'src/deskteriors/deskterior.entity';
 import { HoneyItem } from 'src/honeyitems/honeyitem.entity';
 import { Question } from 'src/questions/question.entity';
