@@ -46,7 +46,7 @@ export class DeskteriorsController {
     @Body() deskteriorDto: DeskteriorDto,
     @UploadedFiles() file: Array<Express.Multer.File>,
     @GetUser() user: User,
-  ): Promise<Deskterior> {
+  ) {
     return this.deskteriorService.createBoard(deskteriorDto, file, user);
   }
 

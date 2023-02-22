@@ -9,7 +9,6 @@ import { DeskteriorsService } from './deskteriors.service';
   imports: [
     TypeOrmModule.forFeature([Deskterior]),
     MulterModule.register({
-      dest: './upload',
       limits: {
         fileSize: 52428800,
       },
