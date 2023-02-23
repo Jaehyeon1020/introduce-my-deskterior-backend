@@ -6,10 +6,6 @@ import { Deskterior } from './deskterior.entity';
 import { User } from 'src/users/user.entity';
 import * as AWS from 'aws-sdk';
 
-AWS.config.update({
-  region: process.env.AWS_REGION,
-});
-
 @Injectable()
 export class DeskteriorsService {
   constructor(

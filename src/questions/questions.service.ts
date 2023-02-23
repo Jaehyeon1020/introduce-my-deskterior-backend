@@ -1,11 +1,10 @@
-import { extractExtender } from 'src/lib/extractExtender';
+import { QuestionDto } from './dto/question.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeskteriorDto } from 'src/deskteriors/dto/deskterior.dto';
 import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
 import { Question } from './question.entity';
-import { modifyFileNameIncludeExtender } from 'src/lib/modifyFileNameIncludeExtender';
+import * as AWS from 'aws-sdk';
 
 @Injectable()
 export class QuestionsService {
@@ -32,25 +31,48 @@ export class QuestionsService {
 
   /** 질문 게시판 글 작성 */
   async createBoard(
-    deskteriorDto: DeskteriorDto,
+    questionDto: QuestionDto,
     file: Array<Express.Multer.File>,
     user: User,
   ): Promise<Question> {
-    const { title, description } = deskteriorDto;
-    let filename = '';
+    // AWS 설정
+    AWS.config.update({
+      region: process.env.AWS_REGION,
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      },
+    });
+
+    const { title, description } = questionDto;
+    let baseUrl = 'https://jaehyeonsnewbucket.s3.ap-northeast-2.amazonaws.com/';
+    let imageUrl;
+    let uploadFile;
 
     if (file.length > 0) {
-      const uploadFile = file[0];
-      const extender = extractExtender(uploadFile.mimetype);
-      modifyFileNameIncludeExtender(uploadFile.filename, extender);
+      uploadFile = file[0];
 
-      filename = uploadFile.filename + '.' + extender;
+      const newFileName = Date.now() + uploadFile.originalname;
+      imageUrl = baseUrl + newFileName;
+
+      try {
+        const upload = await new AWS.S3()
+          .putObject({
+            Key: newFileName,
+            Body: uploadFile.buffer,
+            Bucket: process.env.AWS_S3_BUCKET_NAME,
+          })
+          .promise();
+        console.log(upload);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const new_board = this.questionRepository.create({
       title,
       description,
-      image: filename,
+      image: imageUrl,
       user,
       authorId: user.id,
     });
