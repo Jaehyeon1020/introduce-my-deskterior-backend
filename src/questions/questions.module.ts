@@ -9,7 +9,6 @@ import { MulterModule } from '@nestjs/platform-express';
   imports: [
     TypeOrmModule.forFeature([Question]),
     MulterModule.register({
-      dest: './upload',
       limits: {
         fileSize: 52428800,
       },
