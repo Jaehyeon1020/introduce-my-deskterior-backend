@@ -1,6 +1,7 @@
+import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { AuthService } from './auth.service';
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
 @Controller('auth')
@@ -23,5 +24,12 @@ export class AuthController {
   @Post('/logout')
   logout(@Res() res: Response) {
     return this.authService.logout(res);
+  }
+
+  /** 로그인 여부 체크 */
+  @UseGuards(AuthGuard('jwt'))
+  @Get('/logincheck')
+  loginCheck() {
+    return { status: true };
   }
 }

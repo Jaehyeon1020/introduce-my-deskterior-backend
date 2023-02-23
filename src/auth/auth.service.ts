@@ -1,6 +1,6 @@
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { User } from '../users/user.entity';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
@@ -36,9 +36,7 @@ export class AuthService {
       this.userRepository.save(newUser);
       return { message: `${newUser.username}님 회원가입을 축하드립니다!` };
     } catch (err) {
-      return {
-        message: '알 수 없는 에러가 발생하였습니다. 다시 시도해주세요.',
-      };
+      throw new BadRequestException('알 수 없는 에러가 발생했습니다.');
     }
   }
 
@@ -59,7 +57,9 @@ export class AuthService {
       res.cookie('jwt', accessToken);
       return res.send({ message: '로그인 성공' });
     } else {
-      return res.send({ message: '아이디 또는 비밀번호가 틀렸습니다.' });
+      return res
+        .status(400)
+        .json({ error: '아이디 또는 비밀번호가 틀렸습니다.' });
     }
   }
 
