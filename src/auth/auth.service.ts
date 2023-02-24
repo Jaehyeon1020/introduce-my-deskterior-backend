@@ -55,7 +55,7 @@ export class AuthService {
       }); // payload를 담는 jwt token 발행
 
       res.cookie('jwt', accessToken);
-      return res.send({ message: '로그인 성공' });
+      return res.send({ message: '로그인 성공', username: username });
     } else {
       return res
         .status(400)
