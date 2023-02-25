@@ -75,6 +75,7 @@ export class QuestionsService {
       image: imageUrl,
       user,
       authorId: user.id,
+      authorName: user.username,
     });
 
     await this.questionRepository.save(new_board);

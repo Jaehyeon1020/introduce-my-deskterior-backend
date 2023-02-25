@@ -75,6 +75,7 @@ export class DeskteriorsService {
       image: imageUrl,
       user,
       authorId: user.id,
+      authorName: user.username,
     });
 
     await this.deskteriorRepository.save(new_board);

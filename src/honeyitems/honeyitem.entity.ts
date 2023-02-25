@@ -25,6 +25,9 @@ export class HoneyItem {
   authorId: number; // 작성자(user의 id)
 
   @Column()
+  authorName: string; // 작성자 이름
+
+  @Column()
   image: string; // 이미지 메타데이터
 
   @ManyToOne(() => User, (user) => user.honeyItemBoards)

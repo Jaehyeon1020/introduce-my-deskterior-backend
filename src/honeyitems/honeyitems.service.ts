@@ -75,6 +75,7 @@ export class HoneyitemsService {
       image: imageUrl,
       user,
       authorId: user.id,
+      authorName: user.username,
     });
 
     await this.honeyItemRepository.save(new_board);
