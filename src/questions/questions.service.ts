@@ -1,5 +1,9 @@
 import { QuestionDto } from './dto/question.dto';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
@@ -83,16 +87,13 @@ export class QuestionsService {
   }
 
   /** 질문 게시판 글 삭제 */
-  async deleteBoardById(
-    id: number,
-    user: User,
-  ): Promise<void | { message: string }> {
+  async deleteBoardById(id: number, user: User): Promise<void> {
     const found = await this.findOneById(id);
 
     if (found.authorId === user.id) {
       await this.questionRepository.delete({ id });
     } else {
-      return { message: '권한이 없습니다.' };
+      throw new UnauthorizedException('권한이 없습니다.');
     }
   }
 
@@ -101,7 +102,7 @@ export class QuestionsService {
     id: number,
     newDescription: string,
     user: User,
-  ): Promise<Question | { message: string }> {
+  ): Promise<Question> {
     const found = await this.findOneById(id);
 
     if (found.authorId === user.id) {
@@ -110,7 +111,7 @@ export class QuestionsService {
 
       return found;
     } else {
-      return { message: '권한이 없습니다.' };
+      throw new UnauthorizedException('권한이 없습니다.');
     }
   }
 }

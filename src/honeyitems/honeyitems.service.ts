@@ -1,6 +1,10 @@
 import { HoneyItemDto } from './dto/honeyitem.dto';
 import { HoneyItem } from 'src/honeyitems/honeyitem.entity';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from 'src/users/user.entity';
@@ -83,16 +87,13 @@ export class HoneyitemsService {
   }
 
   /** 꿀템 추천 게시판 글 삭제 */
-  async deleteBoardById(
-    id: number,
-    user: User,
-  ): Promise<void | { message: string }> {
+  async deleteBoardById(id: number, user: User): Promise<void> {
     const found = await this.findOneById(id);
 
     if (found.authorId === user.id) {
       await this.honeyItemRepository.delete({ id });
     } else {
-      return { message: '권한이 없습니다.' };
+      throw new UnauthorizedException('권한이 없습니다.');
     }
   }
 
@@ -101,7 +102,7 @@ export class HoneyitemsService {
     id: number,
     newDescription: string,
     user: User,
-  ): Promise<HoneyItem | { message: string }> {
+  ): Promise<HoneyItem> {
     const found = await this.findOneById(id);
 
     if (found.authorId === user.id) {
@@ -110,7 +111,7 @@ export class HoneyitemsService {
 
       return found;
     } else {
-      return { message: '권한이 없습니다.' };
+      throw new UnauthorizedException('권한이 없습니다.');
     }
   }
 }

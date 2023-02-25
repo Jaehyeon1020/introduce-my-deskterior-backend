@@ -56,7 +56,7 @@ export class QuestionsController {
   deleteBoardById(
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
-  ): Promise<void | { message: string }> {
+  ): Promise<void> {
     return this.questionService.deleteBoardById(id, user);
   }
 
@@ -67,7 +67,7 @@ export class QuestionsController {
     @Param('id', ParseIntPipe) id: number,
     @Body('description') newDescription: string,
     @GetUser() user: User,
-  ) {
+  ): Promise<Question> {
     return this.questionService.updateBoardById(id, newDescription, user);
   }
 }

@@ -56,7 +56,7 @@ export class DeskteriorsController {
   deleteBoardById(
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
-  ): Promise<void | { message: string }> {
+  ): Promise<void> {
     return this.deskteriorService.deleteBoardById(id, user);
   }
 
@@ -67,7 +67,7 @@ export class DeskteriorsController {
     @Param('id', ParseIntPipe) id: number,
     @Body('description') newDescription: string,
     @GetUser() user: User,
-  ): Promise<Deskterior | { message: string }> {
+  ): Promise<Deskterior> {
     return this.deskteriorService.updateBoardById(id, newDescription, user);
   }
 }

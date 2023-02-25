@@ -56,7 +56,7 @@ export class HoneyitemsController {
   deleteBoardById(
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
-  ): Promise<void | { message: string }> {
+  ): Promise<void> {
     return this.honeyitemsService.deleteBoardById(id, user);
   }
 
@@ -67,7 +67,7 @@ export class HoneyitemsController {
     @Param('id', ParseIntPipe) id: number,
     @Body('description') newDescription: string,
     @GetUser() user: User,
-  ): Promise<HoneyItem | { message: string }> {
+  ): Promise<HoneyItem> {
     return this.honeyitemsService.updateBoardById(id, newDescription, user);
   }
 }

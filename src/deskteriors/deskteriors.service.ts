@@ -1,5 +1,9 @@
 import { DeskteriorDto } from './dto/deskterior.dto';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Deskterior } from './deskterior.entity';
@@ -83,16 +87,13 @@ export class DeskteriorsService {
   }
 
   /** 데스크테리어 글 삭제 */
-  async deleteBoardById(
-    id: number,
-    user: User,
-  ): Promise<void | { message: string }> {
+  async deleteBoardById(id: number, user: User): Promise<void> {
     const found = await this.findOneById(id);
 
     if (found.authorId === user.id) {
       await this.deskteriorRepository.delete({ id });
     } else {
-      return { message: '권한이 없습니다.' };
+      throw new UnauthorizedException('권한이 없습니다.');
     }
   }
 
@@ -101,7 +102,7 @@ export class DeskteriorsService {
     id: number,
     newDescription: string,
     user: User,
-  ): Promise<Deskterior | { message: string }> {
+  ): Promise<Deskterior> {
     const found = await this.findOneById(id);
 
     if (found.authorId === user.id) {
@@ -110,7 +111,7 @@ export class DeskteriorsService {
 
       return found;
     } else {
-      return { message: '권한이 없습니다.' };
+      throw new UnauthorizedException('권한이 없습니다.');
     }
   }
 }
