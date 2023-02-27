@@ -1,5 +1,9 @@
 import { Question } from 'src/questions/question.entity';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
@@ -41,7 +45,7 @@ export class UsersService {
     const found = await this.userRepository.findOneBy({ username });
 
     if (!found) {
-      return { message: '존재하지 않는 유저입니다.' };
+      return new NotFoundException('존재하지 않는 유저입니다.');
     }
 
     return {
@@ -55,7 +59,7 @@ export class UsersService {
   async updateUserPassword(user: User, username: string, newPassword: string) {
     // 유저 자신의 정보를 수정하려고 시도하는 것이 맞는지 확인
     if (user.username !== username) {
-      return { message: '권한이 없습니다.' };
+      return new UnauthorizedException('권한이 없습니다.');
     }
 
     // 암호화된 비밀번호 생성
@@ -73,7 +77,7 @@ export class UsersService {
   async deleteUser(user: User, username: string) {
     // 삭제 권한이 있는지 확인
     if (user.username !== username) {
-      return { message: '권한이 없습니다.' };
+      return new UnauthorizedException('권한이 없습니다.');
     }
 
     // 회원 탈퇴 전 이 회원이 작성했던 글도 함께 삭제
