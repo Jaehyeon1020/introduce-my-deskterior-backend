@@ -1,6 +1,10 @@
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { User } from '../users/user.entity';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotAcceptableException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
@@ -21,7 +25,7 @@ export class AuthService {
 
     // 아이디 중복되는 경우
     if (await this.userRepository.findOneBy({ username })) {
-      return { message: '이미 존재하는 아이디입니다.' };
+      throw new NotAcceptableException('이미 존재하는 유저');
     }
 
     const salt = await bcrypt.genSalt();
