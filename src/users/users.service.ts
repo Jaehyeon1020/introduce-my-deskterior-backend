@@ -1,3 +1,4 @@
+import { HoneyitemsService } from './../honeyitems/honeyitems.service';
 import { Question } from 'src/questions/question.entity';
 import {
   Injectable,
@@ -10,6 +11,8 @@ import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { Deskterior } from 'src/deskteriors/deskterior.entity';
 import { HoneyItem } from 'src/honeyitems/honeyitem.entity';
+import { DeskteriorsService } from 'src/deskteriors/deskteriors.service';
+import { QuestionsService } from 'src/questions/questions.service';
 
 @Injectable()
 export class UsersService {
@@ -22,6 +25,9 @@ export class UsersService {
     private honeyItemRepository: Repository<HoneyItem>,
     @InjectRepository(Question)
     private questionRepository: Repository<Question>,
+    private deskteriorsService: DeskteriorsService,
+    private honeyitemsService: HoneyitemsService,
+    private questionsServices: QuestionsService,
   ) {}
 
   /** (테스트용) 모든 유저 정보 조회 */
@@ -80,10 +86,16 @@ export class UsersService {
       return new UnauthorizedException('권한이 없습니다.');
     }
 
-    // 회원 탈퇴 전 이 회원이 작성했던 글도 함께 삭제
-    await this.deskteriorRepository.delete({ authorId: user.id });
-    await this.honeyItemRepository.delete({ authorId: user.id });
-    await this.questionRepository.delete({ authorId: user.id });
+    // 회원 탈퇴 시 회원이 작성했던 글, S3에 업로드된 이미지까지 삭제
+    for (let deskBoard of user.deskteriorBoards) {
+      await this.deskteriorsService.deleteBoardById(deskBoard.id, user);
+    }
+    for (let honeyBoard of user.honeyItemBoards) {
+      await this.honeyitemsService.deleteBoardById(honeyBoard.id, user);
+    }
+    for (let questionBoard of user.questionBoards) {
+      await this.questionsServices.deleteBoardById(questionBoard.id, user);
+    }
 
     // 회원 정보 삭제
     await this.userRepository.remove(user);
