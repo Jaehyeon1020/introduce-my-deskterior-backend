@@ -1,6 +1,7 @@
 import { HoneyItemDto } from './dto/honeyitem.dto';
 import { HoneyItem } from 'src/honeyitems/honeyitem.entity';
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -69,7 +70,7 @@ export class HoneyitemsService {
           .promise();
         console.log(upload);
       } catch (error) {
-        console.log(error);
+        throw new BadRequestException('이미지 저장 중 에러가 발생했습니다.');
       }
     }
 
